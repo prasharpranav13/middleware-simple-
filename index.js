@@ -20,6 +20,19 @@ app.use((req, res, next) => {
   console.log(`hello from m2 ${req.userName}`);
   next();
 });
+
+//middleware3-> create log for each req-res cycle
+app.use((req, res, next) => {
+  console.log(`hello from m3`);
+  fs.appendFile(
+    "log.txt",
+    `\n ${req.url} - ${Date.now()} - ${req.method} - ${req.path} \n`,
+    (err, data) => {
+      next();
+    }
+  );
+});
+
 app.get("/users", (req, res) => {
   const html = `
   <ul>
